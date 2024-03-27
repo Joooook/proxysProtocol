@@ -1,15 +1,15 @@
 import binascii
 import hashlib
-
+from typing import Union
 
 class ID:
-    def __init__(self, _uuid):
-        if type(_uuid) == str:
-            self.uuid_str = _uuid
+    def __init__(self, uuid: Union[str, bytes]):
+        if type(uuid) == str:
+            self.uuid_str = uuid
             self.uuid_bytes = bytes.fromhex(self.uuid_str.replace('-', ''))
-        elif type(_uuid) == bytes:
-            self.uuid_bytes = _uuid
-            self.uuid_str = binascii.hexlify(_uuid).decode()
+        elif type(uuid) == bytes:
+            self.uuid_bytes = uuid
+            self.uuid_str = binascii.hexlify(uuid).decode()
         else:
             raise TypeError
         self.cmd_key = hashlib.md5(self.uuid_bytes + 'c48619fe-8f02-49e0-b9e9-edf763e17e21'.encode()).digest()
